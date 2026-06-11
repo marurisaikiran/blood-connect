@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.env
+.DS_Store
+*.log
+.idea/
+
+# Unrelated scratch files
+solution.js
+sample_input.txt
+expected_output.txt
+actual_output.txt

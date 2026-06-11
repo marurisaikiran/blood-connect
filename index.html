@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BloodConnect - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideInLeft {
+        from {
+          transform: translateX(-50px);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideInRight {
+        from {
+          transform: translateX(50px);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      .fade-in {
+        animation: fadeIn 1s ease-in-out;
+      }
+
+      .slide-in-left {
+        animation: slideInLeft 0.8s ease-out;
+      }
+
+      .slide-in-right {
+        animation: slideInRight 0.8s ease-out;
+      }
+
+      .btn-hover {
+        transition: all 0.3s ease;
+      }
+
+      .btn-hover:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(177, 18, 38, 0.3);
+      }
+
+      .input-focus {
+        transition: all 0.3s ease;
+      }
+
+      .input-focus:focus {
+        transform: scale(1.02);
+        box-shadow: 0 0 0 3px rgba(177, 18, 38, 0.1);
+      }
+
+      .gradient-bg {
+        background: linear-gradient(135deg, #B11226 0%, #8B0E1B 100%);
+      }
+
+      .glass-effect {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+      }
+    </style>
+    <meta property="og:image" content="https://bolt.new/static/og_default.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://bolt.new/static/og_default.png">
+</head>
+  <body class="font-sans antialiased">
+    <div class="min-h-screen flex fade-in">
+      <!-- Left Side - Inspirational Message -->
+      <div class="hidden lg:flex lg:w-1/2 gradient-bg text-white p-12 flex-col justify-center items-center slide-in-left">
+        <div class="max-w-lg">
+          <div class="mb-8">
+            <svg class="w-20 h-20 mb-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+            <h1 class="text-5xl font-bold mb-4">BloodConnect</h1>
+            <p class="text-2xl mb-6">Every Drop Counts</p>
+          </div>
+
+          <div class="space-y-6 text-lg">
+            <div class="flex items-start space-x-4">
+              <svg class="w-6 h-6 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <p>Connect donors with patients in need instantly</p>
+            </div>
+            <div class="flex items-start space-x-4">
+              <svg class="w-6 h-6 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <p>Save lives through timely blood donations</p>
+            </div>
+            <div class="flex items-start space-x-4">
+              <svg class="w-6 h-6 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <p>Build a community of life-savers</p>
+            </div>
+          </div>
+
+          <div class="mt-12 p-6 bg-white bg-opacity-10 rounded-lg backdrop-blur-sm">
+            <p class="text-sm italic">"The gift of blood is the gift of life. Join our community and become a hero today."</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Side - Login Form -->
+      <div class="w-full lg:w-1/2 flex items-center justify-center p-6 bg-gray-50 slide-in-right">
+        <div class="w-full max-w-md">
+          <!-- Mobile Logo -->
+          <div class="lg:hidden text-center mb-8">
+            <svg class="w-16 h-16 mx-auto mb-4 text-[#B11226]" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+            <h1 class="text-3xl font-bold text-[#B11226]">BloodConnect</h1>
+          </div>
+
+          <div class="glass-effect rounded-2xl shadow-2xl p-8">
+            <!-- Tabs -->
+            <div class="flex mb-8 bg-gray-100 rounded-lg p-1">
+              <button id="loginTab" class="flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all duration-300 bg-[#B11226] text-white">
+                Login
+              </button>
+              <button id="signupTab" class="flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all duration-300 text-gray-600 hover:text-gray-900">
+                Sign Up
+              </button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="space-y-5">
+              <h2 class="text-2xl font-bold text-gray-800 mb-6">Welcome Back</h2>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">I am a</label>
+                <select id="loginRole" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#B11226] focus:border-transparent input-focus outline-none">
+                  <option value="donor">Donor</option>
+                  <option value="patient">Patient</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                <input type="email" id="loginEmail" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#B11226] focus:border-transparent input-focus outline-none" placeholder="your@email.com">
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                <input type="password" id="loginPassword" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#B11226] focus:border-transparent input-focus outline-none" placeholder="••••••••">
+              </div>
+
+              <div class="flex items-center justify-between text-sm">
+                <label class="flex items-center">
+                  <input type="checkbox" class="rounded border-gray-300 text-[#B11226] focus:ring-[#B11226]">
+                  <span class="ml-2 text-gray-600">Remember me</span>
+                </label>
+                <a href="#" class="text-[#B11226] hover:underline">Forgot password?</a>
+              </div>
+
+              <button type="submit" class="w-full bg-[#B11226] text-white py-3 rounded-lg font-medium btn-hover">
+                Login
+              </button>
+            </form>
+
+            <!-- Signup Form (Hidden by default) -->
+            <form id="signupForm" class="space-y-5 hidden">
+              <h2 class="text-2xl font-bold text-gray-800 mb-6">Create Account</h2>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">I am a</label>
+                <select id="signupRole" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#B11226] focus:border-transparent input-focus outline-none">
+                  <option value="donor">Donor</option>
+                  <option value="patient">Patient</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                <input type="text" id="signupName" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#B11226] focus:border-transparent input-focus outline-none" placeholder="John Doe">
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                <input type="email" id="signupEmail" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#B11226] focus:border-transparent input-focus outline-none" placeholder="your@email.com">
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                <input type="password" id="signupPassword" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#B11226] focus:border-transparent input-focus outline-none" placeholder="••••••••">
+              </div>
+
+              <button type="submit" class="w-full bg-[#B11226] text-white py-3 rounded-lg font-medium btn-hover">
+                Sign Up
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const loginTab = document.getElementById('loginTab');
+      const signupTab = document.getElementById('signupTab');
+      const loginForm = document.getElementById('loginForm');
+      const signupForm = document.getElementById('signupForm');
+
+      loginTab.addEventListener('click', () => {
+        loginTab.classList.add('bg-[#B11226]', 'text-white');
+        loginTab.classList.remove('text-gray-600');
+        signupTab.classList.remove('bg-[#B11226]', 'text-white');
+        signupTab.classList.add('text-gray-600');
+        loginForm.classList.remove('hidden');
+        signupForm.classList.add('hidden');
+      });
+
+      signupTab.addEventListener('click', () => {
+        signupTab.classList.add('bg-[#B11226]', 'text-white');
+        signupTab.classList.remove('text-gray-600');
+        loginTab.classList.remove('bg-[#B11226]', 'text-white');
+        loginTab.classList.add('text-gray-600');
+        signupForm.classList.remove('hidden');
+        loginForm.classList.add('hidden');
+      });
+
+      loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const role = document.getElementById('loginRole').value;
+        const email = document.getElementById('loginEmail').value;
+
+        localStorage.setItem('userRole', role);
+        localStorage.setItem('userEmail', email);
+
+        window.location.href = 'dashboard.html';
+      });
+
+      signupForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const role = document.getElementById('signupRole').value;
+        const email = document.getElementById('signupEmail').value;
+        const name = document.getElementById('signupName').value;
+
+        localStorage.setItem('userRole', role);
+        localStorage.setItem('userEmail', email);
+        localStorage.setItem('userName', name);
+
+        window.location.href = 'dashboard.html';
+      });
+    </script>
+  </body>
+</html>

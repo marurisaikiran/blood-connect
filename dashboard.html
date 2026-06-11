@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BloodConnect - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .fade-in {
+        animation: fadeIn 0.6s ease-out;
+      }
+
+      .card-hover {
+        transition: all 0.3s ease;
+      }
+
+      .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(177, 18, 38, 0.15);
+      }
+
+      .btn-hover {
+        transition: all 0.3s ease;
+      }
+
+      .btn-hover:hover {
+        transform: scale(1.05);
+      }
+
+      .sidebar-item {
+        transition: all 0.3s ease;
+      }
+
+      .sidebar-item:hover {
+        background-color: rgba(177, 18, 38, 0.1);
+        padding-left: 1.5rem;
+      }
+
+      .sidebar-item.active {
+        background-color: #B11226;
+        color: white;
+        border-left: 4px solid white;
+      }
+
+      @media (max-width: 768px) {
+        .sidebar {
+          transform: translateX(-100%);
+          transition: transform 0.3s ease;
+        }
+
+        .sidebar.open {
+          transform: translateX(0);
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 font-sans antialiased">
+    <!-- Top Navbar -->
+    <nav class="bg-white shadow-md fixed w-full top-0 z-50">
+      <div class="px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <!-- Logo and Menu Button -->
+          <div class="flex items-center space-x-4">
+            <button id="menuBtn" class="md:hidden text-gray-600 hover:text-[#B11226]">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+              </svg>
+            </button>
+            <div class="flex items-center space-x-2">
+              <svg class="w-8 h-8 text-[#B11226]" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+              <span class="text-xl font-bold text-gray-800">BloodConnect</span>
+            </div>
+          </div>
+
+          <!-- Right Side -->
+          <div class="flex items-center space-x-4">
+            <!-- Notifications -->
+            <button class="relative p-2 text-gray-600 hover:text-[#B11226] btn-hover">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+              </svg>
+              <span class="absolute top-1 right-1 w-2 h-2 bg-[#B11226] rounded-full"></span>
+            </button>
+
+            <!-- Profile -->
+            <div class="flex items-center space-x-3">
+              <div class="hidden sm:block text-right">
+                <p class="text-sm font-medium text-gray-800" id="userName">User</p>
+                <p class="text-xs text-gray-500" id="userRole">Donor</p>
+              </div>
+              <div class="w-10 h-10 bg-[#B11226] rounded-full flex items-center justify-center text-white font-semibold">
+                <span id="userInitial">U</span>
+              </div>
+            </div>
+
+            <!-- Logout -->
+            <button id="logoutBtn" class="text-gray-600 hover:text-[#B11226] btn-hover">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="flex pt-16">
+      <!-- Sidebar -->
+      <aside id="sidebar" class="sidebar fixed md:static w-64 bg-white h-screen shadow-lg z-40">
+        <div class="p-6">
+          <nav class="space-y-2">
+            <a href="#" class="sidebar-item active flex items-center space-x-3 p-3 rounded-lg text-gray-700">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+              </svg>
+              <span class="font-medium">Dashboard</span>
+            </a>
+
+            <a href="#" class="sidebar-item flex items-center space-x-3 p-3 rounded-lg text-gray-700">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+              </svg>
+              <span class="font-medium">Find Donors</span>
+            </a>
+
+            <a href="#" class="sidebar-item flex items-center space-x-3 p-3 rounded-lg text-gray-700">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+              </svg>
+              <span class="font-medium">Emergency Requests</span>
+            </a>
+
+            <a href="#" class="sidebar-item flex items-center space-x-3 p-3 rounded-lg text-gray-700">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <span class="font-medium">My Availability</span>
+            </a>
+
+            <a href="#" class="sidebar-item flex items-center space-x-3 p-3 rounded-lg text-gray-700">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+              <span class="font-medium">History</span>
+            </a>
+
+            <a href="#" class="sidebar-item flex items-center space-x-3 p-3 rounded-lg text-gray-700">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+              <span class="font-medium">Settings</span>
+            </a>
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="flex-1 p-6 md:p-8 min-h-screen">
+        <div class="max-w-7xl mx-auto">
+          <!-- Welcome Section -->
+          <div class="mb-8 fade-in">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">Welcome back, <span id="welcomeName">User</span></h1>
+            <p class="text-gray-600">Here's what's happening with blood donations today.</p>
+          </div>
+
+          <!-- Dashboard Cards -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- Card 1: Find Donor -->
+            <div class="bg-white rounded-xl shadow-lg p-6 card-hover fade-in cursor-pointer">
+              <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                  <svg class="w-6 h-6 text-[#B11226]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                  </svg>
+                </div>
+                <span class="text-2xl font-bold text-gray-300">01</span>
+              </div>
+              <h3 class="text-lg font-semibold text-gray-800 mb-2">Find Donor</h3>
+              <p class="text-sm text-gray-600 mb-4">Search for available blood donors in your area</p>
+              <button class="text-[#B11226] font-medium text-sm hover:underline flex items-center">
+                Search Now
+                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+              </button>
+            </div>
+
+            <!-- Card 2: Raise Emergency Request -->
+            <div class="bg-white rounded-xl shadow-lg p-6 card-hover fade-in cursor-pointer" style="animation-delay: 0.1s;">
+              <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                  <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                  </svg>
+                </div>
+                <span class="text-2xl font-bold text-gray-300">02</span>
+              </div>
+              <h3 class="text-lg font-semibold text-gray-800 mb-2">Emergency Request</h3>
+              <p class="text-sm text-gray-600 mb-4">Raise urgent blood requirement requests</p>
+              <button class="text-orange-600 font-medium text-sm hover:underline flex items-center">
+                Create Request
+                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+              </button>
+            </div>
+
+            <!-- Card 3: My Availability -->
+            <div class="bg-white rounded-xl shadow-lg p-6 card-hover fade-in cursor-pointer" style="animation-delay: 0.2s;">
+              <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                  <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                </div>
+                <span class="text-2xl font-bold text-gray-300">03</span>
+              </div>
+              <h3 class="text-lg font-semibold text-gray-800 mb-2">My Availability</h3>
+              <p class="text-sm text-gray-600 mb-4">Update your donation availability status</p>
+              <button class="text-green-600 font-medium text-sm hover:underline flex items-center">
+                Update Status
+                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+              </button>
+            </div>
+
+            <!-- Card 4: Notifications -->
+            <div class="bg-white rounded-xl shadow-lg p-6 card-hover fade-in cursor-pointer" style="animation-delay: 0.3s;">
+              <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                  <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                  </svg>
+                </div>
+                <span class="text-2xl font-bold text-gray-300">04</span>
+              </div>
+              <h3 class="text-lg font-semibold text-gray-800 mb-2">Notifications</h3>
+              <p class="text-sm text-gray-600 mb-4">View all your recent notifications</p>
+              <button class="text-blue-600 font-medium text-sm hover:underline flex items-center">
+                View All
+                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Recent Activity & Stats -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Recent Activity -->
+            <div class="lg:col-span-2 bg-white rounded-xl shadow-lg p-6">
+              <h2 class="text-xl font-bold text-gray-800 mb-4">Recent Activity</h2>
+              <div class="space-y-4">
+                <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                  <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg class="w-5 h-5 text-[#B11226]" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    </svg>
+                  </div>
+                  <div class="flex-1">
+                    <p class="text-sm font-medium text-gray-800">New blood request in your area</p>
+                    <p class="text-xs text-gray-500 mt-1">Patient needs O+ blood - 2 hours ago</p>
+                  </div>
+                </div>
+
+                <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                  <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                  </div>
+                  <div class="flex-1">
+                    <p class="text-sm font-medium text-gray-800">Donation completed successfully</p>
+                    <p class="text-xs text-gray-500 mt-1">You helped save a life - 5 hours ago</p>
+                  </div>
+                </div>
+
+                <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                  <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                  </div>
+                  <div class="flex-1">
+                    <p class="text-sm font-medium text-gray-800">Profile updated</p>
+                    <p class="text-xs text-gray-500 mt-1">Your information has been updated - 1 day ago</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+              <h2 class="text-xl font-bold text-gray-800 mb-4">Quick Stats</h2>
+              <div class="space-y-4">
+                <div class="p-4 bg-gradient-to-r from-red-50 to-red-100 rounded-lg">
+                  <p class="text-sm text-gray-600 mb-1">Total Donations</p>
+                  <p class="text-3xl font-bold text-[#B11226]">12</p>
+                </div>
+
+                <div class="p-4 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
+                  <p class="text-sm text-gray-600 mb-1">Lives Saved</p>
+                  <p class="text-3xl font-bold text-green-600">36</p>
+                </div>
+
+                <div class="p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg">
+                  <p class="text-sm text-gray-600 mb-1">Active Requests</p>
+                  <p class="text-3xl font-bold text-blue-600">5</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Mobile Sidebar Overlay -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden md:hidden"></div>
+
+    <script>
+      const menuBtn = document.getElementById('menuBtn');
+      const sidebar = document.getElementById('sidebar');
+      const sidebarOverlay = document.getElementById('sidebarOverlay');
+      const logoutBtn = document.getElementById('logoutBtn');
+
+      menuBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        sidebarOverlay.classList.toggle('hidden');
+      });
+
+      sidebarOverlay.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        sidebarOverlay.classList.add('hidden');
+      });
+
+      logoutBtn.addEventListener('click', () => {
+        localStorage.clear();
+        window.location.href = 'index.html';
+      });
+
+      const userRole = localStorage.getItem('userRole') || 'donor';
+      const userEmail = localStorage.getItem('userEmail') || 'user@example.com';
+      const userName = localStorage.getItem('userName') || 'User';
+
+      document.getElementById('userName').textContent = userName;
+      document.getElementById('userRole').textContent = userRole.charAt(0).toUpperCase() + userRole.slice(1);
+      document.getElementById('userInitial').textContent = userName.charAt(0).toUpperCase();
+      document.getElementById('welcomeName').textContent = userName;
+
+      if (!localStorage.getItem('userEmail')) {
+        window.location.href = 'index.html';
+      }
+
+      const sidebarItems = document.querySelectorAll('.sidebar-item');
+      sidebarItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+          e.preventDefault();
+          sidebarItems.forEach(i => i.classList.remove('active'));
+          item.classList.add('active');
+        });
+      });
+    </script>
+  </body>
+</html>
